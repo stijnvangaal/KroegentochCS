@@ -5,7 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+var waypoints = require('./routes/waypoints');
+var races = require('./routes/races');
 var users = require('./routes/users');
 
 var app = express();
@@ -22,7 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/waypoints', waypoints);
+app.use('/races', races);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
@@ -58,3 +60,5 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
+// google API id: AIzaSyBZitnuOYBULr-V2UOhsfhmtfOpI7zvpqw

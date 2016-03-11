@@ -2,29 +2,28 @@ var express = require('express');
 var router = express.Router();
 
 
-/* GET races listing*/
+/* GET waypoints listing*/
 router.get('/', function (req, res) {
-
 
 });
 
-/* GET races with id*/
+/* GET waypoint with id*/
 router.get('/:id', function (req, res) {
 
 
 });
 
-/* POST races */
+/* POST waypoint */
 router.post('/', function(req, res){
     
 });
 
-/* PUT races */
+/* PUT waypoint */
 router.put('/:id', function(req, res){
     
 });
 
-/* DELETE races */
+/* DELETE waypoint */
 router.delete('/:id', function(req, res){
     
 });
