@@ -21,9 +21,9 @@ var app = express();
 mongoose.connect('mongodb://localhost:27017/restrace');
 
 // Models
-var Race = require('./models/race');
-var User = require('./models/user');
-var Waypoint = require('./models/waypoint');
+var Races = require('./models/race');
+var Users = require('./models/user');
+var Waypoints = require('./models/waypoint');
 
 
 // uncomment after placing your favicon in /public

@@ -1,33 +1,39 @@
 var express = require('express');
 var router = express.Router();
 
+function getLocations(req, res) {
+    // $.get("https://maps.googleapis.com/maps/api/place/textSearch/json?key=AIzaSyBZitnuOYBULr-V2UOhsfhmtfOpI7zvpqw&query=paul", function (result, success) {
+    //     res.send(result);
+    // });
+}
 
-/* GET location listing*/
-router.get('/', function (req, res) {
-    $.get("https://maps.googleapis.com/maps/api/place/textSearch/json?key=AIzaSyBZitnuOYBULr-V2UOhsfhmtfOpI7zvpqw&query=paul", function(result, success){
-        res.send(result);
-    });
-});
+function addLocation(req, res) {
+// supported?
+}
 
-/* GET location with id*/
-router.get('/:id', function (req, res) {
+function getLocation(req, res) {
+//todo
+}
+
+function updateLocation(req, res) {
+// supported?
+}
+
+function deleteLocation(req, res) {
+    // supported?
+}
 
 
-});
+// ROUTING
+router.route('/')
+    .get(getLocations)
+    .put(addLocation);
 
-/* POST location */
-router.post('/', function(req, res){
+router.route('/:id')
+    .get(getLocation)
+    .post(updateLocation)
+    .delete(deleteLocation)
 
-});
 
-/* PUT location */
-router.put('/:id', function(req, res){
-
-});
-
-/* DELETE location */
-router.delete('/:id', function(req, res){
-
-});
-
+// export module
 module.exports = router;
