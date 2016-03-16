@@ -17,7 +17,7 @@ var app = express();
 // app.set('view engine', 'jade');
 
 var mongoose = require('mongoose');
-
+var Schema = mongoose.Schema;
 
 // Data Access Layer
 mongoose.connect('mongodb://localhost:27017/restrace');
@@ -40,6 +40,8 @@ app.use('/waypoints', waypoints);
 app.use('/races', races);
 app.use('/users', users);
 app.use('/locations', locations);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
