@@ -17,7 +17,15 @@ var app = express();
 // app.set('view engine', 'jade');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+
+
+// Data Access Layer
+mongoose.connect('mongodb://localhost:27017/restrace');
+
+// Models
+require('./models/race')(mongoose);
+require('./models/user')(mongoose);
+require('./models/waypoint')(mongoose);
 
 
 // uncomment after placing your favicon in /public
