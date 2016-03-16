@@ -37,6 +37,7 @@ premium/node_modules/
 
 bin/
 tmp/
+data/
 *.tmp
 *.bak
 *.log
