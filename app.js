@@ -23,9 +23,9 @@ var Schema = mongoose.Schema;
 mongoose.connect('mongodb://localhost:27017/restrace');
 
 // Models
-require('./models/race')(mongoose);
-require('./models/user')(mongoose);
-require('./models/waypoint')(mongoose);
+// require('./models/race')(mongoose);
+// require('./models/user')(mongoose);
+// require('./models/waypoint')(mongoose);
 
 
 // uncomment after placing your favicon in /public
