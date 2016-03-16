@@ -3,7 +3,13 @@ var router = express.Router();
 
 /* GET users listing*/
 router.get('/', function (req, res) {
+    User.find({}, function(err, users) {
+        if (err) throw err;
 
+        // object of all the users
+        req.json(users)
+        console.log(users);
+    });
 
 });
 
