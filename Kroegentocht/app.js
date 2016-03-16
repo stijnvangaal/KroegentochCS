@@ -8,12 +8,13 @@ var bodyParser = require('body-parser');
 var waypoints = require('./routes/waypoints');
 var races = require('./routes/races');
 var users = require('./routes/users');
+var locations = require('./routes/users');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// // view engine setup
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
@@ -30,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/waypoints', waypoints);
 app.use('/races', races);
 app.use('/users', users);
-app.use('/races', users);
+app.use('/locations', locations);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
