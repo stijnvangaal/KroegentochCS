@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Waypoints = require('./models/waypoint');
+var Waypoints = require('../models/waypoint');
 
 function getWaypoints(req, res) {
     Waypoints.find({}, function (err, waypoints) {
@@ -30,11 +30,11 @@ function getWaypoint(req, res) {
 }
 
 function updateWaypoint(req, res) {
-    Waypoints.findByIdAndUpdate(req.param.id, /* TODO  INSERT NEW OBJECT*/, function (err, waypoint) {
-        if (err) throw err;
+    // Waypoints.findByIdAndUpdate(req.param.id, /* TODO  INSERT NEW OBJECT*/, function (err, waypoint) {
+    //     if (err) throw err;
 
-        console.log(waypoint);
-    });
+    //     console.log(waypoint);
+    // });
 }
 
 function deleteWaypoint(req, res) {

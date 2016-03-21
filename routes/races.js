@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Races = require('./models/race');
+var Races = require('../models/race');
 
 function getRaces(req, res) {
     Races.find({}, function (err, races) {
@@ -30,11 +30,11 @@ function getRace(req, res) {
 }
 
 function updateRace(req, res) {
-    Races.findByIdAndUpdate(req.param.id, /* TODO  INSERT NEW OBJECT*/, function (err, race) {
-        if (err) throw err;
+    // Races.findByIdAndUpdate(req.param.id, /* TODO  INSERT NEW OBJECT*/, function (err, race) {
+    //     if (err) throw err;
 
-        console.log(race);
-    });
+    //     console.log(race);
+    // });
 }
 
 function deleteRace(req, res) {

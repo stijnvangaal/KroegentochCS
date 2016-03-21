@@ -1,15 +1,30 @@
 var express = require('express');
 var router = express.Router();
 var https = require("https");
-//var request = require('ajax-request');
+
 
 var apiKey = "AIzaSyBZitnuOYBULr-V2UOhsfhmtfOpI7zvpqw";
+var textSearch = "/maps/api/place/textSearch/json?type=cafe&key=" + apiKey;
+var nearbySearch = "/maps/api/place/nearbySearch/json?";
+var searchRadius = 500;
 
 function getLocations(req, res) {
+    var searchString = "";
+    var searchLng = 5.28664;
+    var searchLat = 51.68852;
+    var searchText = "Subway";
+
+    //if(searchText != undefined){
+        searchString = textSearch + "&name=" + searchText;
+    //}
+    //else if(searchLng != undefined && searchLat != undefined){
+        searchString = nearbySearch + "location=" + searchLat + "," + searchLng + "&radius=" + searchRadius + "&name=" + searchText + "&key=" + apiKey;   
+    //}
+
     var options = {
         host: 'maps.googleapis.com',
-        path: '/maps/api/place/nearbysearch/json?location=51.6901,5.30062&type=cafe&radius=500&key=' + apiKey
-    }
+        path: searchString
+    };
 
     https.get(options, function (response) {
         var content = '';
@@ -21,11 +36,11 @@ function getLocations(req, res) {
 
         // Als het hele response terug is kunnen we verder
         response.on('end', function () {
+            console.log(content)
             var object = JSON.parse(content);
 
             res.json(object);
         });
-        //res.send(content)
     });
 }
 

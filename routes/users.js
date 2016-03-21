@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Users = require('./models/user');
+var Users = require('../models/user');
 
 function getUsers(req, res) {
     Users.find({}, function (err, users) {
@@ -30,11 +30,11 @@ function getUser(req, res) {
 }
 
 function updateUser(req, res) {
-    Users.findByIdAndUpdate(req.param.id, /* TODO  INSERT NEW OBJECT*/, function (err, user) {
-        if (err) throw err;
+    // Users.findByIdAndUpdate(req.param.id, /* TODO  INSERT NEW OBJECT*/, function (err, user) {
+    //     if (err) throw err;
         
-        console.log(user);
-    });
+    //     console.log(user);
+    // });
 }
 
 function deleteUser(req, res) {
