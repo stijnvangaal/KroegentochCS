@@ -5,13 +5,10 @@ var https = require("https");
 
 var apiKey = "AIzaSyBZitnuOYBULr-V2UOhsfhmtfOpI7zvpqw";
 
-/* GET location listing*/
-router.get('/', function(req, res, next) {
-    var key = 'AIzaSyBZitnuOYBULr-V2UOhsfhmtfOpI7zvpqw';
-
+function getLocations(req, res) {
     var options = {
         host: 'maps.googleapis.com',
-        path: '/maps/api/place/nearbysearch/json?location=51.6901,5.30062&type=cafe&radius=500&key=' + key
+        path: '/maps/api/place/nearbysearch/json?location=51.6901,5.30062&type=cafe&radius=500&key=' + apiKey
     }
 
     https.get(options, function (response) {
@@ -30,38 +27,35 @@ router.get('/', function(req, res, next) {
         });
         //res.send(content)
     });
-});
+}
 
-// /* GET location listing*/
-// router.get('/', function (req, res) {
-//     console.log("Start searching locations by name 'paul'");
-//     request("http://maps.googleapis.com/maps/api/place/nearbysearch/json?key="+apiKey+"&location=51.6900,5.300&radius=1000&type=cafe", function(err, res1, body){
-//         console.log("err = " + err);
-//         console.log("res1 = " + res1);
-//         console.log("body = " + body);
-//         res.send(res1);
-//     });
-// });
+function addLocation(req, res) {
+// supported?
+}
 
-/* GET location with id*/
-router.get('/:id', function (req, res) {
+function getLocation(req, res) {
+//todo
+}
+
+function updateLocation(req, res) {
+// supported?
+}
+
+function deleteLocation(req, res) {
+    // supported?
+}
 
 
-});
+// ROUTING
+router.route('/')
+    .get(getLocations)
+    .put(addLocation);
 
-/* POST location */
-router.post('/', function(req, res){
+router.route('/:id')
+    .get(getLocation)
+    .post(updateLocation)
+    .delete(deleteLocation)
 
-});
 
-/* PUT location */
-router.put('/:id', function(req, res){
-
-});
-
-/* DELETE location */
-router.delete('/:id', function(req, res){
-
-});
-
+// export module
 module.exports = router;

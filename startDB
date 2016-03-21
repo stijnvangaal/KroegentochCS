@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "lazy way to start mongo"
+mongod --dbpath ./data
+
+#call by using `sh startdb`

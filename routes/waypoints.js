@@ -1,31 +1,60 @@
 var express = require('express');
 var router = express.Router();
+var Waypoints = require('./models/waypoint');
+
+function getWaypoints(req, res) {
+    Waypoints.find({}, function (err, waypoints) {
+        if (err) throw err;
+
+        res.json(waypoints)
+        console.log(waypoints);
+    });
+}
+
+function addWaypoint(req, res) {
+    newWaypoint = {} // TODO: read request and generate object
+    newWaypoint.save(function (err) {
+        if (err) throw err;
+
+        console.log('User created!');
+    });
+}
+
+function getWaypoint(req, res) {
+    Waypoints.findById(req.param.id, function (err, waypoint) {
+        if (err) throw err;
+
+        res.json(waypoint);
+        console.log(waypoint);
+    });
+}
+
+function updateWaypoint(req, res) {
+    Waypoints.findByIdAndUpdate(req.param.id, /* TODO  INSERT NEW OBJECT*/, function (err, waypoint) {
+        if (err) throw err;
+
+        console.log(waypoint);
+    });
+}
+
+function deleteWaypoint(req, res) {
+    Waypoints.findByIdAndRemove(req.param.id, function (err) {
+        if (err) throw err;
+        console.log('Waypoint deleted!');
+    });
+}
 
 
-/* GET waypoints listing*/
-router.get('/', function (req, res) {
+// ROUTING
+router.route('/')
+    .get(getWaypoints)
+    .put(addWaypoint);
 
-});
+router.route('/:id')
+    .get(getWaypoint)
+    .post(updateWaypoint)
+    .delete(deleteWaypoint)
 
-/* GET waypoint with id*/
-router.get('/:id', function (req, res) {
 
-
-});
-
-/* POST waypoint */
-router.post('/', function(req, res){
-    
-});
-
-/* PUT waypoint */
-router.put('/:id', function(req, res){
-    
-});
-
-/* DELETE waypoint */
-router.delete('/:id', function(req, res){
-    
-});
-
+// export module
 module.exports = router;
