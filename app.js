@@ -1,3 +1,4 @@
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -8,23 +9,22 @@ var bodyParser = require('body-parser');
 var waypoints = require('./routes/waypoints');
 var races = require('./routes/races');
 var users = require('./routes/users');
-var locations = require('./routes/users');
+var locations = require('./routes/locations');
 
 var mongoose = require('mongoose');
 var app = express();
 
 // // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+ app.set('views', path.join(__dirname, 'views'));
+ app.set('view engine', 'jade');
 
 // Data Access Layer
-mongoose.connect('mongodb://localhost:27017/restrace');
+//mongoose.connect('mongodb://localhost:27017/restrace');
 
 // Models
 var Races = require('./models/race');
 var Users = require('./models/user');
 var Waypoints = require('./models/waypoint');
-
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
