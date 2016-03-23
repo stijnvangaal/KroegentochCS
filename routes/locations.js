@@ -25,7 +25,7 @@ function getLocations(req, res) {
     if(req.query.pageToken != undefined){ pageToken   = "&pagetoken=" + req.query.pageToken; }
     
     var searchString = nearbySearch + "&location=" + searchLat + "," + searchLng + "&radius=" + searchRadius + searchName + pageToken;   
-    
+
     var options = {
         host: 'maps.googleapis.com',
         path: searchString
@@ -40,7 +40,6 @@ function getLocations(req, res) {
 
         // Als het hele response terug is kunnen we verder
         response.on('end', function () {
-            //console.log(content)
             var object = JSON.parse(content);
 
             res.json(object);
