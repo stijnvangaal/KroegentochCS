@@ -15,10 +15,14 @@ function guid() {
 
 function getUsers(req, res) {
     Users.find({}, function (err, users) {
-        if (err) throw err;
-
-        res.json(users)
-        console.log(users);
+        if (err){
+            console.log(err);
+            res.send("Get users failed");
+        }
+        else{
+            res.json(users)
+            console.log(users);  
+        }
     });
 }
 
@@ -49,10 +53,14 @@ function addUser(req, res) {
 
 function getUser(req, res) {
     Users.findById(req.params.id, function (err, user) {
-        if (err) throw err;
-
-        res.json(user);
-        console.log(user);
+        if (err){
+            console.log(err);
+            res.send("Get user failed");
+        }
+        else{
+            res.json(user);
+            console.log(user);
+        }
     });
 }
 
@@ -88,9 +96,14 @@ function updateUser(req, res) {
 
 function deleteUser(req, res) {
     Users.findByIdAndRemove(req.params.id, function (err) {
-        if (err) throw err;
-        console.log('User deleted!');
-        res.json("User deleted!");
+        if (err) {
+            console.log(err);
+            res.send("User deletion failed");
+        }
+        else{
+            console.log('User deleted!');
+            res.json("User deleted!");
+        }
     });
 }
 
