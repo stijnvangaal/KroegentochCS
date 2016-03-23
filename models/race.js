@@ -4,8 +4,8 @@ var raceSchema = mongoose.Schema({
     id: Number,
     title: String,
     owner: String,
-    waypoints: [{waypointId: Number}],
-    users: [{userId: Number}]
+    waypoints: [{type: mongoose.Schema.Types.ObjectId, ref: 'Waypoint'}],
+    users: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 });
 
 var Race = mongoose.model('Race', raceSchema);
