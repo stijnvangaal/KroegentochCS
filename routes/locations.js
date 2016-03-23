@@ -7,6 +7,7 @@ var apiKey = "AIzaSyBZitnuOYBULr-V2UOhsfhmtfOpI7zvpqw";
 //var textSearch = "/maps/api/place/textsearch/json?type=cafe&key=" + apiKey;
 var nearbySearch = '/maps/api/place/nearbysearch/json?type=cafe&key=' + apiKey;
 var detailSearch = '/maps/api/place/details/json?&key=' + apiKey;
+
 var mainRadius = 5000;
 var mainLng = 5.30207;//coords of 's hertogenbosch marktsplein
 var mainLat = 51.68694;
@@ -49,9 +50,8 @@ function getLocations(req, res) {
 
 function getLocation(req, res) {
     var id = req.params.id;
-    console.log(id);
     var searchString = detailSearch + "&placeid=" + id;
-    console.log(searchString);  
+
     var options = {
             host: 'maps.googleapis.com',
             path: searchString
