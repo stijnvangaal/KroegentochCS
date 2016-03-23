@@ -64,7 +64,7 @@ router.route('/')
 router.route('/:id')
     .get(getUser)
     .post(updateUser)
-    .delete(deleteUser)
+    .delete(deleteUser);
 
 
 // export module
