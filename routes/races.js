@@ -3,61 +3,99 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Races = mongoose.model('Race');
 
-
-function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
-}
-
 function getRaces(req, res) {
-    Races.find({}, function (err, races) {
-        if (err) throw err;
-
-        res.json(races);
-        console.log(races);
+    Races.find({})
+    .populate("owner")
+    .exec(function(err, races){
+        if (err){
+            console.log(err);
+            res.send("Failed to get races");
+        } else {
+            res.json(races);
+            console.log(races);   
+        }
     });
 }
 
 function addRace(req, res) {
+    var title = req.body.title;
+    var ownerId = req.body.ownerId;
     
-    
-    newRace = {
-        
-    } // TODO: read request and generate object
-    newRace.save(function (err) {
-        if (err) throw err;
-
-        console.log('Race created!');
+    newRace = new Races( {
+       title : title,
+       owner : ownerId 
+    });
+    newRace.save(function (err, result) {
+        if (err){
+            console.log(err);
+            res.send("Failed to add race");
+        } else {
+            console.log(result);
+            res.send(result);  
+        }
     });
 }
 
 function getRace(req, res) {
-    Races.findById(req.param.id, function (err, race) {
-        if (err) throw err;
-
-        res.json(race);
-        console.log(race);
+    Races.find({"_id" : req.params.id})
+    .populate("owner")
+    .populate("users")
+    .populate("waypoints")
+    .exec(function(err, race){
+        if (err){
+            console.log(err);
+            res.send("Failed to get race");
+        } else {
+            res.json(race);
+            console.log(race);
+        }
     });
-}
-
-function updateRace(req, res) {
-    // Races.findByIdAndUpdate(req.param.id, /* TODO  INSERT NEW OBJECT*/, function (err, race) {
-    //     if (err) throw err;
-
-    //     console.log(race);
+    // Races.findById(req.params.id, function (err, race) {
+    //     if (err){
+    //         console.log(err);
+    //         res.send("Failed to get race");
+    //     } else {
+    //         res.json(race);
+    //         console.log(race);
+    //     }
     // });
 }
 
-function deleteRace(req, res) {
-    Races.findByIdAndRemove(req.param.id, function (err) {
-        if (err) throw err;
+function updateRace(req, res) {
+    var newTitle = req.body.title;
+    var newUsers = req.body.users;
+    var newPoints = req.body.points;
+    
+    if(newTitle != undefined && newUsers != undefined && newPoints != undefined){
+        var searchObj = {};
+        console.log("title=" + newTitle);
+        console.log("users=" + newUsers);
+        console.log("points=" + newPoints);
+        searchObj.title = newTitle;
+       // searchObj.users = {$push}
+        
+        // Races.findByIdAndUpdate(req.params.id, /* TODO  INSERT NEW OBJECT*/, function (err, race) {
+        //     if (err) throw err;
 
-        console.log('Race deleted!');
+        //     console.log(race);
+        // });
+        res.statusCode = 304;
+        res.send("No value modified");
+    } else {
+        res.statusCode = 304;
+        res.send("No value modified");
+    }
+}
+
+function deleteRace(req, res) {
+    Races.findByIdAndRemove(req.params.id, function (err) {
+        if (err){
+            console.log(err);
+            res.send("Failed to delete race");
+        } else {
+            console.log('Race deleted!');
+            res.send("Race successfully deleted");   
+        }
     });
 }
 
@@ -65,11 +103,11 @@ function deleteRace(req, res) {
 // ROUTING
 router.route('/')
     .get(getRaces)
-    .put(addRace);
+    .post(addRace);
 
 router.route('/:id')
     .get(getRace)
-    .post(updateRace)
+    .put(updateRace)
     .delete(deleteRace);
 
 
