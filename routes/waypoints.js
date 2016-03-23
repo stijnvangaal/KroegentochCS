@@ -17,13 +17,13 @@ function getWaypoints(req, res) {
     Waypoints.find({}, function (err, waypoints) {
         if (err) throw err;
 
-        res.json(waypoints)
+        res.json(waypoints);
         console.log(waypoints);
     });
 }
 
 function addWaypoint(req, res) {
-    newWaypoint = {} // TODO: read request and generate object
+    newWaypoint = {}; // TODO: read request and generate object
     newWaypoint.save(function (err) {
         if (err) throw err;
 
@@ -64,7 +64,7 @@ router.route('/')
 router.route('/:id')
     .get(getWaypoint)
     .post(updateWaypoint)
-    .delete(deleteWaypoint)
+    .delete(deleteWaypoint);
 
 
 // export module
