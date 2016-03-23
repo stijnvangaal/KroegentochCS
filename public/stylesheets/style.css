@@ -6,3 +6,34 @@ body {
 a {
   color: #00B7FF;
 }
+
+.container{
+  border-radius: 15px;
+  background-color: rgba(0,100,255,0.1);
+  padding:20px;
+  border:1px solid rgba(0,100,255,0.2);
+}
+
+.url_title{
+  font-weight: bold;
+}
+
+.url{
+
+  margin:5px;
+}
+
+.possible_method{
+
+}
+
+code{
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 3px;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+
+}
