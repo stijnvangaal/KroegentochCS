@@ -24,7 +24,11 @@ function getRaces(req, res) {
 }
 
 function addRace(req, res) {
-    newRace = {} // TODO: read request and generate object
+    
+    
+    newRace = {
+        
+    } // TODO: read request and generate object
     newRace.save(function (err) {
         if (err) throw err;
 
