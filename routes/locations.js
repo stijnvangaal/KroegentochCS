@@ -5,7 +5,7 @@ var https = require("https");
 
 var apiKey = "AIzaSyBZitnuOYBULr-V2UOhsfhmtfOpI7zvpqw";
 var textSearch = "/maps/api/place/textsearch/json?type=cafe&key=" + apiKey;
-var nearbySearch = "/maps/api/place/nearbySearch/json?";
+var nearbySearch = "/maps/api/place/nearbysearch/json?";
 var searchRadius = 500;
 
 function getLocations(req, res) {
