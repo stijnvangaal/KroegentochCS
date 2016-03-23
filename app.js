@@ -25,8 +25,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var models = require('./models/models.js');
-var routes = require('./routes/routes.js')(app);
+require('./models/models.js')();
+require('./routes/routes.js')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
