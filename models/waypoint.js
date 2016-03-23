@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-
 var waypointSchema = mongoose.Schema({
     id: Number,
     name: String,

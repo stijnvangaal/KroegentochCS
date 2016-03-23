@@ -6,11 +6,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var waypoints = require('./routes/waypoints');
-var races = require('./routes/races');
-var users = require('./routes/users');
-var locations = require('./routes/locations');
-var index = require('./routes/index');
 
 var mongoose = require('mongoose');
 var app = express();
@@ -20,12 +15,7 @@ var app = express();
  app.set('view engine', 'jade');
 
 // Data Access Layer
-//mongoose.connect('mongodb://localhost:27017/restrace');
-
-// Models
-var Races = require('./models/race');
-var Users = require('./models/user');
-var Waypoints = require('./models/waypoint');
+mongoose.connect('mongodb://localhost:27017/restrace');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -35,12 +25,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index)
-app.use('/waypoints', waypoints);
-app.use('/races', races);
-app.use('/users', users);
-app.use('/locations', locations);
-
+var models = require('./models/models.js');
+var routes = require('./routes/routes.js')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

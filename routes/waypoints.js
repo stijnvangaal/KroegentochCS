@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var Waypoints = require('../models/waypoint');
+var mongoose = require('mongoose');
+var Waypoints = mongoose.model('Waypoint');
 
 function getWaypoints(req, res) {
     Waypoints.find({}, function (err, waypoints) {
