@@ -115,8 +115,8 @@ router.route('/')
 
 router.route('/:id')
     .get(getUser)
-    .put(updateUser)
-    .delete(deleteUser)
+    .post(updateUser)
+    .delete(deleteUser);
 
 
 // export module

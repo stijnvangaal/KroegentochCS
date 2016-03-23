@@ -70,7 +70,7 @@ router.route('/')
 router.route('/:id')
     .get(getRace)
     .post(updateRace)
-    .delete(deleteRace)
+    .delete(deleteRace);
 
 
 module.exports = router;
