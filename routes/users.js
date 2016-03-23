@@ -3,6 +3,16 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Users = mongoose.model('User');
 
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+
 function getUsers(req, res) {
     Users.find({}, function (err, users) {
         if (err) throw err;
