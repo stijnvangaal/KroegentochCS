@@ -111,7 +111,7 @@ function deleteUser(req, res) {
 // ROUTING
 router.route('/')
     .get(getUsers)
-    .post(addUser);
+    .put(addUser);
 
 router.route('/:id')
     .get(getUser)
