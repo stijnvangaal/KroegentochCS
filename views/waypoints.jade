@@ -6,17 +6,8 @@ block content
             a(href="../") back
         h1= title
         .new_waypoint
-            form(action='/waypoints',method='post')
-                label(for='title') title
-                input(id='title',type='text',value='')
-
-                // label(for='location') location
-                // select(id="location", name="location")
-                // each location in locations
-                   // option(value="#{location}")
-
-                input(type='submit',value='Create Waypoint')
+            label(for='title') title
+            input(id='title',type='text',value='')
+            button#create_waypoint Create Waypoint
+        hr
         .waypoints
-            each waypoint in waypoints
-                .waypoint
-                    h2= waypoint.name

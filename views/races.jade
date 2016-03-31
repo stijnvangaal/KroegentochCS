@@ -6,13 +6,9 @@ block content
             a(href="../") back
         h1= title
         .new_race
-            form(action='/races',method='PUT')
+            form(action'')
                 label(for='title') title
                 input(id='title',type='text',value='')
-                input(id='ownerId',type='text',hidden='true',value='#{userId}')
-                input(type='submit',value='Create race')
+                input(type='submit', value="Create race")#create_race
+        hr
         .races
-            each race in races
-                .race
-                    h2= race.name
-                    .owner= race.owner

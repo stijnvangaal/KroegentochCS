@@ -1,7 +1,13 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        if styleseets
+            each stylesheet in stylesheets
+                link(rel='stylesheet', href='/stylesheets/' + stylesheet + '.css')
+        if scripts
+            each script in scripts
+                script(src='/js/' + script + '.js')
+    body
+        block content
