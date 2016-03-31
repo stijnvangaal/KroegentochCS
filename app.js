@@ -25,6 +25,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//TODO Add middleware for authentication... Throw a 401 if no auth given.
 require('./models/models.js')();
 require('./routes/routes.js')(app);
 

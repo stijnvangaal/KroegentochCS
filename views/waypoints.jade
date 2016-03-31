@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    .container
+        .back
+            a(href="../") back
+        h1= title
+        .new_waypoint
+            form(action='/waypoints',method='PUT')
+                label(for='name') title
+                input(id='name',type='text',value='')
+                input(type='submit',value='Create race')
+        .waypoints
+            each waypoint in waypoints
+                .waypoint
+                    h2= waypoint.name
+                    

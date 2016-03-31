@@ -8,15 +8,11 @@ function getRaces(req, res) {
         .populate("owner")
         .populate("users")
         .exec(function (err, races) {
-            userId = 10; // TODO dummy data. Change this to the id of the currently logged in user.
             if (err) {
                 console.log(err);
                 res.send("Failed to get races");
-                res.render('races', {title: 'Races', 'races': {}, 'userId': userId});
             } else {
-                // res.json(races);
-                console.log(races);
-                res.render('races', {title: 'Races', 'races': races, 'userId': userId });
+                res.json(races);
             }
         });
 }
