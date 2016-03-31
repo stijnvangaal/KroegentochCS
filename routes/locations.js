@@ -13,7 +13,7 @@ var mainLng = 5.30207;//coords of 's hertogenbosch marktsplein
 var mainLat = 51.68694;
 
 function getLocations(req, res) {  
-    var searchLng = mainLng
+    var searchLng = mainLng;
     var searchLat = mainLat;
     var searchRadius = mainRadius;
     var searchName = "";

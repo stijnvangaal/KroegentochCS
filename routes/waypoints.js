@@ -59,7 +59,7 @@ function deleteWaypoint(req, res) {
 // ROUTING
 router.route('/')
     .get(getWaypoints)
-    .put(addWaypoint);
+    .post(addWaypoint);
 
 router.route('/:id')
     .get(getWaypoint)

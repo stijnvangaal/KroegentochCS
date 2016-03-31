@@ -6,12 +6,17 @@ block content
             a(href="../") back
         h1= title
         .new_waypoint
-            form(action='/waypoints',method='PUT')
-                label(for='name') title
-                input(id='name',type='text',value='')
-                input(type='submit',value='Create race')
+            form(action='/waypoints',method='post')
+                label(for='title') title
+                input(id='title',type='text',value='')
+
+                // label(for='location') location
+                // select(id="location", name="location")
+                // each location in locations
+                   // option(value="#{location}")
+
+                input(type='submit',value='Create Waypoint')
         .waypoints
             each waypoint in waypoints
                 .waypoint
                     h2= waypoint.name
-                    
