@@ -10,7 +10,7 @@ function getUsers(req, res) {
             res.send("Get users failed");
         }
         else{
-            res.json(users)
+            res.json(users);
             console.log(users);  
         }
     });
@@ -19,7 +19,7 @@ function getUsers(req, res) {
 function addUser(req, res) {
     var name = req.body.name;
     var pass = req.body.pass;
-    
+
     if(name == undefined || pass == undefined){
         res.writeHead(400, {'Content-Type' : 'text/plain'});
         res.end('Invalid data');
