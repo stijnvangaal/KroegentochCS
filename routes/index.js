@@ -3,7 +3,11 @@ var router = express.Router();
 
 
 function index(req, res){
-    res.render('index', { title: 'Kroegentocht CS' });
+    var user;
+    if (req.user != undefined){
+        user = req.user.local;
+    }
+    res.render('index', { title: 'Kroegentocht CS' , user: user});
 }
 
 // ROUTING

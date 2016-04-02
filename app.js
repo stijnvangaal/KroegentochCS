@@ -38,6 +38,7 @@ app.use(session({secret: 'manmanman'})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
+
 //TODO Add middleware for authentication... Throw a 401 if no auth given.
 require('./models/models.js')();
 require('./routes/routes.js')(app, passport);

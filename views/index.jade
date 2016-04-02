@@ -5,35 +5,43 @@ block content
         h1= title
         h2 Door Stijn van Gaal en Diede Exterkate
         hr
-        .login
-            form(action='/signup', method='post')
-                .username
-                    label(for='login_username') Username
-                    input(id='login_username',type='text',value='', name='username')
-                .password
-                    label(for='login_password') Password
-                    input(id='login_password',type='password',value='', name='password')
-                .login_register_buttons
-                    input(type='submit', value="login")#login_button
-        .register
-            form(action='/signup', method='post')
-                .username
-                    label(for='register_username') Username
-                    input(id='register_username',type='text',value='', name='username')
-                .password
-                    label(for='register_password') Password
-                    input(id='register_password',type='password',value='', name='password')
-                .login_register_buttons
-                    input(type='submit', value="register")#register_buttom
+        if user
+            .logged_in
+                .large Welcome #{user.username}!
+                a(href='/logout') Log uit
+        else
+            .login
+                form(action='/login', method='post')
+                    .username
+                        label(for='login_username') Username
+                        input(id='login_username',type='text',value='', name='username')
+                    .password
+                        label(for='login_password') Password
+                        input(id='login_password',type='password',value='', name='password')
+                    .login_register_buttons
+                        input(type='submit', value="login")#login_button
+            .register
+                form(action='/signup', method='post')
+                    .username
+                        label(for='register_username') Username
+                        input(id='register_username',type='text',value='', name='username')
+                    .password
+                        label(for='register_password') Password
+                        input(id='register_password',type='password',value='', name='password')
+                    .login_register_buttons
+                        input(type='submit', value="register")#register_buttom
         hr
         .management
         h3 Manage data
-        .url#manageraces
-            span.url_title
-                a(href="/manageraces") Manage races
-        .url#managewaypoints
-            span.url_title
-                a(href="/managewaypoints") Manage waypoints
+        if !user
+            .red You need to be logged in in order to gain access to the management tools.
+        else
+            .url#manageraces
+                span.url_title
+                    a(href="/manageraces") Manage races
+            .url#managewaypoints
+                span.url_title
+                    a(href="/managewaypoints") Manage waypoints
         hr
         .urls
         h3 Api

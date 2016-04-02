@@ -42,3 +42,11 @@ code{
 hr{
   border: 1px solid #eeeeee;
 }
+
+.large{
+  font-size: 1.3em;
+}
+
+.red{
+  color:red;
+}
