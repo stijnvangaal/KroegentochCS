@@ -15,10 +15,15 @@ var useRoutes = function (app, passport) {
     app.use('/managewaypoints', manageWaypoints);
     app.post('/signup',
         passport.authenticate('local-signup', {
-            successRedirect: '/Users',
+            successRedirect: '/',
             failureRedirect: '/',
-            failureFlash : true // allow flash messages
+            failureFlash: true // allow flash messages
         }));
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect: '/',
+        failureRedirect: '/',
+        failureFlash: true // allow flash messages
+    }));
 };
 
 module.exports = useRoutes;

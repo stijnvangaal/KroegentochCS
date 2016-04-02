@@ -5,15 +5,26 @@ block content
         h1= title
         h2 Door Stijn van Gaal en Diede Exterkate
         hr
-        .register
-            if message
-                .error= message
+        .login
             form(action='/signup', method='post')
-                label(for='username') Username
-                input(id='username',type='text',value='', name='username')
-                label(for='password') Password
-                input(id='password',type='password',value='', name='password')
-                input(type='submit', value="register")#register
+                .username
+                    label(for='login_username') Username
+                    input(id='login_username',type='text',value='', name='username')
+                .password
+                    label(for='login_password') Password
+                    input(id='login_password',type='password',value='', name='password')
+                .login_register_buttons
+                    input(type='submit', value="login")#login_button
+        .register
+            form(action='/signup', method='post')
+                .username
+                    label(for='register_username') Username
+                    input(id='register_username',type='text',value='', name='username')
+                .password
+                    label(for='register_password') Password
+                    input(id='register_password',type='password',value='', name='password')
+                .login_register_buttons
+                    input(type='submit', value="register")#register_buttom
         hr
         .management
         h3 Manage data
