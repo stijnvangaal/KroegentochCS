@@ -4,13 +4,8 @@ var mongoose = require('mongoose');
 var Races = mongoose.model('Race');
 
 function getRaces(req, res) {
-    var user;
-    if (req.user == undefined) {
-        // res.redirect('/');
-        res.sendStatus(403);
-        return;
-    }
-    
+    var user = req.user;
+
     res.render('races', {
         title: 'Races',
         scripts: ['jquery.min', 'race'],

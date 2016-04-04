@@ -2,32 +2,33 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Users = mongoose.model('User');
+// var passport = require('passport');
 
-function getUsers(req, res) {
-    Users.find({}, function (err, users) {
+function getUsers(req, res){
+    Users.find({}, function(err, users){
         if (err){
             console.log(err);
             res.send("Get users failed");
         }
         else{
             res.json(users);
-            console.log(users);  
+            console.log(users);
         }
     });
 }
 
-function addUser(req, res) {
+function addUser(req, res){
     var name = req.body.name;
     var pass = req.body.pass;
 
-    if(name == undefined || pass == undefined){
-        res.writeHead(400, {'Content-Type' : 'text/plain'});
+    if (name == undefined || pass == undefined){
+        res.writeHead(400, {'Content-Type': 'text/plain'});
         res.end('Invalid data');
     }
     else{
-        newUser = new Users({name : name, password : pass});
+        newUser = new Users({name: name, password: pass});
         console.log(newUser);
-        newUser.save(function (err) {
+        newUser.save(function(err){
             if (err){
                 console.log(err);
                 res.statusCode = 400;
@@ -41,8 +42,8 @@ function addUser(req, res) {
     }
 }
 
-function getUser(req, res) {
-    Users.findById(req.params.id, function (err, user) {
+function getUser(req, res){
+    Users.findById(req.params.id, function(err, user){
         if (err){
             console.log(err);
             res.send("Get user failed");
@@ -54,17 +55,21 @@ function getUser(req, res) {
     });
 }
 
-function updateUser(req, res) {
+function updateUser(req, res){
     var newName = req.body.name;
     var newPass = req.body.pass;
-   
-    if(newName != undefined || newPass != undefined){
+
+    if (newName != undefined || newPass != undefined){
         var updatedObj = {};
-        if(newName != undefined){ updatedObj.name = newName; }
-        if(newPass != undefined){ updatedObj.password = newPass; }
-        
+        if (newName != undefined){
+            updatedObj.name = newName;
+        }
+        if (newPass != undefined){
+            updatedObj.password = newPass;
+        }
+
         console.log("update: " + updatedObj);
-        Users.findByIdAndUpdate(req.params.id, updatedObj, {new: true} , function (err, user) {
+        Users.findByIdAndUpdate(req.params.id, updatedObj, {new: true}, function(err, user){
             if (err){
                 console.log(err);
                 res.statusCode = 400;
@@ -81,9 +86,9 @@ function updateUser(req, res) {
     }
 }
 
-function deleteUser(req, res) {
-    Users.findByIdAndRemove(req.params.id, function (err) {
-        if (err) {
+function deleteUser(req, res){
+    Users.findByIdAndRemove(req.params.id, function(err){
+        if (err){
             console.log(err);
             res.send("User deletion failed");
         }
@@ -94,11 +99,19 @@ function deleteUser(req, res) {
     });
 }
 
+function addUserPP(){
+    passport.authenticate('local-signup', {
+        successRedirect: '/',
+        failureRedirect: '/',
+        failureFlash: true // allow flash messages
+    });
+}
+
 
 // ROUTING
 router.route('/')
     .get(getUsers)
-    .put(addUser);
+    .put(addUserPP);
 
 router.route('/:id')
     .get(getUser)

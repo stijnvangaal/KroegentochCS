@@ -13,6 +13,7 @@ var useRoutes = function (app, passport) {
     app.use('/locations', locations);
     app.use('/manageraces', manageRaces);
     app.use('/managewaypoints', manageWaypoints);
+    
     app.post('/signup',
         passport.authenticate('local-signup', {
             successRedirect: '/',

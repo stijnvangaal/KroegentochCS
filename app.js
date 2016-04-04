@@ -8,9 +8,14 @@ var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
 
-
 var mongoose = require('mongoose');
 var app = express();
+
+//prepare socket
+// var server = require('http').Server(app);
+// var io = require('socket.io')(server);
+// server.listen(80);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,17 +39,19 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(express.static(path.join(__dirname, 'public')));
 
 // passport
-app.use(session({secret: 'manmanman'})); // session secret
+app.use(session({
+    secret: 'manmanman',
+    resave: false,
+    saveUninitialized: true
+})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
-
-//TODO Add middleware for authentication... Throw a 401 if no auth given.
 require('./models/models.js')();
 require('./routes/routes.js')(app, passport);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next){
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -54,8 +61,8 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
+if (app.get('env') === 'development'){
+    app.use(function(err, req, res, next){
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -66,7 +73,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next){
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
