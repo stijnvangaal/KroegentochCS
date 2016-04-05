@@ -37,7 +37,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/Users/diedeexterkate/Documents/github/KroegentochCS/models/waypoint.js
+SF:/Users/diedeexterkate/Documents/github/KroegentochCS/models/waypoint_frontend.js
 FNF:0
 FNH:0
 DA:1,1
@@ -50,7 +50,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/Users/diedeexterkate/Documents/github/KroegentochCS/models/race.js
+SF:/Users/diedeexterkate/Documents/github/KroegentochCS/models/race_frontend.js
 FNF:0
 FNH:0
 DA:1,1

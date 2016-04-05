@@ -12,7 +12,7 @@ function getRaces(req, res){
 
     res.render('races', {
         title: 'Races',
-        scripts: ['jquery.min', 'race'],
+        scripts: ['jquery.min', 'race_frontend'],
         user: user
     });
 }

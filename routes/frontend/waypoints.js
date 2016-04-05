@@ -20,7 +20,8 @@ function getWaypoints(req, res){
 
     var user = req.user.local;
     res.render('waypoints', {
-        title: 'Waypoints', scripts: ['jquery.min', 'waypoint'],
+        title: 'Waypoints',
+        scripts: ['jquery.min', 'waypoint_frontend'],
         raceId: raceId,
         user: user
     });
