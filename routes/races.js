@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Races = mongoose.model('Race');
+var Waypoints = mongoose.model('Waypoint');
 
 function getRaces(req, res){
     Races.find({})
@@ -121,6 +122,7 @@ function deleteRace(req, res){
 }
 
 function addUsers(req, res){
+    console.log(req.body);
     if (req.body.userId){
         var newUsers = req.body.userId;
     } else{
@@ -227,39 +229,61 @@ function addWaypoints(req, res){
     if (!req.isAuthenticated()){
         res.send(401);
     } else{
-
-        // check if it's your own race
+        // check if it's your own race and if the waypoint is unique in the race.
         Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
-            if (!err){
-                if (String(oldRace.owner._id) !== String(req.user._id)){
-                    res.send(403, "you can only alter your own races");
-                    return;
-                }
-                var newpoints = req.body.waypoints;
+                if (!err){
+                    if (String(oldRace.owner._id) !== String(req.user._id)){
+                        res.send(403, "you can only alter your own races");
+                        return;
+                    }
+                    var newpoints = req.body.waypoints;
 
-                if (newpoints != undefined){
-                    var pointData = {};
-                    if (typeof newpoints === 'string'){
-                        pointData = {$push: {waypoints: newpoints}};
-                    }
-                    else{
-                        pointData = {$push: {waypoints: {$each: newpoints}}};
-                    }
-                    Races.findByIdAndUpdate(req.params.id, pointData, {new: true}, function(err, race){
-                        if (err){
-                            console.log(err);
-                            res.send("Failed to add waypoint(s)");
-                        } else{
-                            console.log(race);
-                            res.json(race);
+                    // // Dublicate detection:
+                    // for (var key in oldRace.waypoints){
+                    //     if (typeof newpoints == 'string'){
+                    //         console.log(String(oldRace.waypoints[key]) + " + " + newpoints);
+                    //         if (String(oldRace.waypoints[key]) == newpoints){
+                    //             res.send(409, 'waypoint already exists in the race');
+                    //         }
+                    //     } else{
+                    //         var nonDuplicatePoints;
+                    //         for (var newpoint in newpoints){
+                    //             if (String(oldRace.waypoints[key]) == newpoint){
+                    //                 nonDuplicatePoints += newpoint;
+                    //             }
+                    //         }
+                    //         newpoints = nonDuplicatePoints;
+                    //         if (newpoints.length == 0){
+                    //             res.send(409, 'All waypoints already exist in the race');
+                    //         }
+                    //     }
+                    // }
+
+
+                    if (newpoints != undefined){
+                        var pointData = {};
+                        if (typeof newpoints === 'string'){
+                            pointData = {$push: {waypoints: newpoints}};
                         }
-                    });
-                } else{
-                    res.statusCode = 304;
-                    res.send("No value modified");
+                        else{
+                            pointData = {$push: {waypoints: {$each: newpoints}}};
+                        }
+                        Races.findByIdAndUpdate(req.params.id, pointData, {new: true}, function(err, race){
+                            if (err){
+                                console.log(err);
+                                res.send("Failed to add waypoint(s)");
+                            } else{
+                                console.log(race);
+                                res.json(race);
+                            }
+                        });
+                    } else{
+                        res.statusCode = 304;
+                        res.send("No value modified");
+                    }
                 }
             }
-        });
+        );
     }
 }
 
@@ -274,7 +298,7 @@ function deleteWaypoint(req, res){
                     res.send(403, "you can only alter your own Races");
                     return;
                 }
-                Races.findByIdAndUpdate(req.params.id, {$pull: {waypoints: req.params.pointId}}, {new: true}, function(err, race){
+                Races.findByIdAndUpdate(req.params.id, {$pull: {waypoints: req.params.pointId}}, function(err, race){
                     if (err){
                         console.log(err);
                         res.send("Failed to remove waypoint");
@@ -292,20 +316,36 @@ function addCheckedinUser(req, res){
     if (!req.isAuthenticated()){
         res.send(401);
     } else{
-        var addingSelf = req.params.userId == String(req.user._id);
-        if (!addingSelf){
-            res.send(403, "you can only alter your own race status");
+        var userId = req.body.userId;
+        var waypointId = req.params.waypoint_id;
+
+        var checkingInSelf = userId == String(req.user._id);
+        if (!checkingInSelf){
+            res.send(403, "you can only alter your own status");
         } else{
 
+
+            // checkin the user
+            Waypoints.findByIdAndUpdate(waypointId, {$push: {checkedInUsers: userId}}, function(err, wp){
+                if (err){
+                    console.log(err);
+                    res.send("Failed to update checkedin status");
+                } else{
+                    console.log(wp);
+                    res.json(wp);
+                }
+            });
         }
     }
 }
+
 function getCheckedinUsers(req, res){
     if (!req.isAuthenticated()){
         res.send(401);
     } else{
-        Races.findOne({"_id": req.params.id})
-            .populate("waypoints")
+        var waypointId = req.params.waypoint_id;
+        Waypoints.findOne({"_id": waypointId})
+            .populate("checkedInUsers").select("checkedInUsers")
             .exec(function(err, users){
                 if (err){
                     console.log(err);
@@ -315,7 +355,6 @@ function getCheckedinUsers(req, res){
                     console.log(users);
                 }
             });
-
     }
 }
 

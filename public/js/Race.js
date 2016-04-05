@@ -40,17 +40,55 @@ function update_list(){
                 var title = value.title;
                 var ownerName = value.owner.local.username;
                 var user_count = value.users.length;
-                var deleteButton = "<button class='delete_race' data-id='" + id + "'>Delete</button>";
+
+
                 var editButton = "";
-                if(value.owner._id == $(".new_race").data("user_id")){
+                var deleteButton = "";
+                if (value.owner._id == $(".new_race").data("user_id")){
                     editButton = "<button class='edit_race' data-id='" + id + "'>Edit</button>";
+                    deleteButton = "<button class='delete_race' data-id='" + id + "'>Delete</button>";
                 }
-                race = "<div data-id='" + id + "'><h2>" + title + "</h2><p>Owned by: " + ownerName + "</p><p>" + user_count + " users</p>" + editButton + deleteButton + "</div>";
+
+
+                var joinButton = "<button class='join_race' data-id='" + id + "'>Join</button>";
+                var participating = false;
+                $.each(value.users, function(key, user){
+                    if (String(user._id) == $(".new_race").data("user_id")){
+                        participating = true;
+                    }
+                });
+                if (participating){
+                    var joinButton = "<button class='leave_race' data-id='" + id + "'>Leave</button>";
+                }
+                race = "<div data-id='" + id + "'><h2>" + title + "</h2><p>Owned by: " + ownerName + "</p><p>" + user_count + " users</p>" + joinButton + editButton + deleteButton + "</div>";
                 races.append(race);
             });
             $('.delete_race').click(delete_race);
             $('.edit_race').click(edit_race);
+            $('.join_race').click(join_race);
+            $('.leave_race').click(leave_race);
         });
-
 }
 
+
+function join_race(sender){
+    var id = $(sender.target).data('id');
+    $.ajax({
+        url: '/races/' + id + '/users',
+        type: 'POST',
+        data: {userId: $(".new_race").data("user_id")},
+    }).done(function(){
+        update_list();
+    });
+}
+
+
+function leave_race(sender){
+    var id = $(sender.target).data('id');
+    $.ajax({
+        url: '/races/' + id + '/users/' + $(".new_race").data("user_id"),
+        type: 'DELETE'
+    }).done(function(){
+        update_list();
+    });
+}

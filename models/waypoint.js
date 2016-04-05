@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var waypointSchema = mongoose.Schema({
     name: {type: String, required: true},
     vicinity: {type: String, required: true},
-    placeId: {type: String, required: true, unique: true, index: true},
+    placeId: {type: String, required: true},
     checkedInUsers: [{type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true}]
 });
 
