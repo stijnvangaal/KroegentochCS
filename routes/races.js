@@ -73,22 +73,24 @@ function updateRace(req, res){
 
                 // update the race
                 var newTitle = req.body.title;
-
-                if (newTitle != undefined){
-                    var newData = {title: newTitle};
-                    Races.findByIdAndUpdate(req.params.id, newData, {new: true}, function(err, race){
-                        if (err){
-                            console.log(err);
-                            res.send("Failed to update title");
-                        } else{
-                            console.log(race);
-                            res.json(race);
-                        }
-                    });
+                var newStartedStatus = req.body.started;
+                if (newTitle){
+                    var newData = {title: newTitle, started: newStartedStatus};
                 } else{
-                    res.statusCode = 304;
-                    res.send("No value modified");
+                    var newData = {started: newStartedStatus}
                 }
+                Races.findByIdAndUpdate(req.params.id, newData, {new: true}, function(err, race){
+                    if (err){
+                        console.log(err);
+                        res.send("Failed to update race");
+                    } else{
+                        console.log(race);
+                        res.json(race);
+                    }
+                });
+            } else{
+                res.statusCode = 304;
+                res.send("No value modified");
             }
         });
     }
@@ -344,6 +346,20 @@ function getCheckedinUsers(req, res){
         res.send(401);
     } else{
         var waypointId = req.params.waypoint_id;
+        // get all races.
+        // foreach
+        // if
+        Races.find({}).exec(function(err, races){
+            if (err){
+                console.log(err);
+                res.send("Failed to get races");
+            } else{
+                if(!races.started){
+                    res.send(403,"This race has not been started yet.");
+                }
+            }
+        });
+
         Waypoints.findOne({"_id": waypointId})
             .populate("checkedInUsers").select("checkedInUsers")
             .exec(function(err, users){

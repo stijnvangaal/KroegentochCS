@@ -21,17 +21,12 @@ function getRaces(req, res){
 // ROUTING
 router.route('/').get(getRaces);
 
-module.exports = function (socketio){
-    io = socketio;
-    // test_socket();
-    return router;
-};
+module.exports = router;
 
-
-function test_socket(){
-    io.on('connection', function (socket) {
-        socket.on('news_left', function () {
-            console.log("NEWS IS LEFT!");
-        });
-    });
-}
+// function test_socket(){
+//     io.on('connection', function (socket) {
+//         socket.on('news_left', function () {
+//             console.log("NEWS IS LEFT!");
+//         });
+//     });
+// }

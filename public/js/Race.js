@@ -1,5 +1,3 @@
-var socket = io('http://localhost:3000');
-
 $(document).ready(function(){
     var create_race_button = $('#create_race');
     update_list();
@@ -42,15 +40,21 @@ function update_list(){
                 var title = value.title;
                 var ownerName = value.owner.local.username;
                 var user_count = value.users.length;
+                var started = value.started;
 
 
                 var editButton = "";
                 var deleteButton = "";
+                var startButton = "";
                 if (value.owner._id == $(".new_race").data("user_id")){
                     editButton = "<button class='edit_race' data-id='" + id + "'>Edit</button>";
                     deleteButton = "<button class='delete_race' data-id='" + id + "'>Delete</button>";
+                    if (started){
+                        startButton = "<button disabled data-id='" + id + "'>Race started</button> <br/>";
+                    } else{
+                        startButton = "<button class='start_race' data-id='" + id + "'>Start race</button> <br/>";
+                    }
                 }
-
 
                 var joinButton = "<button class='join_race' data-id='" + id + "'>Join</button>";
                 var participating = false;
@@ -62,13 +66,14 @@ function update_list(){
                 if (participating){
                     var joinButton = "<button class='leave_race' data-id='" + id + "'>Leave</button>";
                 }
-                race = "<div data-id='" + id + "'><h2>" + title + "</h2><p>Owned by: " + ownerName + "</p><p>" + user_count + " users</p>" + joinButton + editButton + deleteButton + "</div>";
+                race = "<div data-id='" + id + "'><h2>" + title + "</h2><p>Owned by: " + ownerName + "</p><p>" + user_count + " users</p>" + startButton + joinButton + editButton + deleteButton + "</div>";
                 races.append(race);
             });
             $('.delete_race').click(delete_race);
             $('.edit_race').click(edit_race);
             $('.join_race').click(join_race);
             $('.leave_race').click(leave_race);
+            $('.start_race').click(start_race);
         });
 }
 
@@ -79,6 +84,17 @@ function join_race(sender){
         url: '/races/' + id + '/users',
         type: 'POST',
         data: {userId: $(".new_race").data("user_id")},
+    }).done(function(){
+        update_list();
+    });
+}
+
+function start_race(sender){
+    var id = $(sender.target).data('id');
+    $.ajax({
+        url: '/races/' + id,
+        type: 'POST',
+        data: {started: true},
     }).done(function(){
         update_list();
     });
