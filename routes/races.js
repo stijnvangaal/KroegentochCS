@@ -97,6 +97,7 @@ function updateRace(req, res){
 }
 
 function deleteRace(req, res){
+    console.log(req.isAuthenticated() + "--------------------------------------------------------------------------------------------------------");
     if (!req.isAuthenticated()){
         res.send(401);
     } else{

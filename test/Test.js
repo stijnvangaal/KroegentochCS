@@ -3,10 +3,10 @@ var request = require('supertest');
 var expect = require('chai').expect;
 var should = require('chai').should();
 
-var models = require('../models/models.js')();
 var app = require('express')();
+var models = require('../models/models.js')();
 var races = require('../routes/races');
-var login = require('../routes/routes');
+var routes = require('../routes/routes.js');
 
 function makeRequest(route, statusCode, done){
 	request(app)
@@ -43,28 +43,16 @@ function putRequest(route, data, statusCode, done){
 		});
 };
 
-// describe("Testing User items", function(){
-//     app.use('/', login);
-//     describe("Register", function(){
-//        it("Should have registered", function(done){
-//            var user = {'username': 'user', 'password' : "test" };
-//            request(app)
-// 		    .post('/signup')
-//             .send(user)
-// 		    .end(done);
-//        });
-//     }); 
-// });
+function deleteRequest(route, statusCode, done){
+	request(app)
+		.delete(route)
+		.expect(statusCode)
+		.end(function(err, res){
+			if(err){ return done(err); }
 
-
-
-
-
-
-
-
-
-
+			done(null, res);
+		});
+};
 
 describe("Testing Race route", function () {
     app.use('/', races);
@@ -79,16 +67,41 @@ describe("Testing Race route", function () {
     });
     
     describe("Add race", function(){
-        it('should return a newly created race', function(done){
+        it('should be unauthorized', function(done){
             var expectedName = "TEST";
             var race = { "title" : expectedName };
-            console.log('testing');
-            putRequest('/', race, 200, function(err, res){
-                console.log('post ended');
+            putRequest('/', race, 401, function(err, res){
                 if(err){ return done(err); }
-                expect(res.body).to.have.property('title');
-                expect(res.body.name).to.not.be.undefined;
-                expect(res.body.name).to.equal(expectedName);
+                done();
+            });
+        });
+    });
+    
+    describe("Get single race", function(){
+        it('should not be found', function(done){
+            var raceid = "sertfygbhnj";
+            makeRequest('/' + raceid, 200, function(err, res){
+                if(err){ return done(err); }
+                done();
+            });
+        });
+    });
+    
+    describe("Update race", function(){
+        it('should be unauthorized', function(done){
+            var raceid = "sertfygbhnj";
+            postRequest('/' + raceid, {} , 401, function(err, res){
+                if(err){ return done(err); }
+                done();
+            });
+        });
+    });
+    
+    describe("Delete race", function(){
+        it('should be unauthorized', function(done){
+            var raceid = "sertfygbhnj";
+            deleteRequest('/' + raceid, 401, function(err, res){
+                if(err){ return done(err); }
                 done();
             });
         });
