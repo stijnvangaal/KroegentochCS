@@ -1,3 +1,5 @@
+var socket = io('http://localhost:3000');
+
 $(document).ready(function(){
     var create_race_button = $('#create_race');
     update_list();
@@ -92,3 +94,4 @@ function leave_race(sender){
         update_list();
     });
 }
+

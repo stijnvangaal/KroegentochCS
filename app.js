@@ -11,6 +11,11 @@ var flash = require('connect-flash');
 var mongoose = require('mongoose');
 var app = express();
 
+var server = app.listen(8080);
+// var io = require('socket.io').listen(app);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -41,7 +46,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
 require('./models/models.js')();
-require('./routes/routes.js')(app, passport);
+require('./routes/routes.js')(app, passport, io);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){

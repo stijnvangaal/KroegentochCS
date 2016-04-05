@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var io;
 
 function getRaces(req, res){
     var user = req.user;
@@ -20,4 +21,17 @@ function getRaces(req, res){
 // ROUTING
 router.route('/').get(getRaces);
 
-module.exports = router;
+module.exports = function (socketio){
+    io = socketio;
+    // test_socket();
+    return router;
+};
+
+
+function test_socket(){
+    io.on('connection', function (socket) {
+        socket.on('news_left', function () {
+            console.log("NEWS IS LEFT!");
+        });
+    });
+}
