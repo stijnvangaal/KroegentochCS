@@ -62,6 +62,9 @@ function update_wp_list(){
         var waypoints = data.waypoints;
         waypointsDiv.empty();
         waypointsDiv.append("<h2>Your waypoints</h2>");
+        if(waypoints.length == 0){
+            waypointsDiv.append("<p>You have no waypoints yet</p>");
+        }
         $.each(waypoints, function(key, waypoint){
             var deleteButton = "<button class='remove_wp' data-waypoint_id='" + waypoint._id + "'>Remove</button>";
             var htmlString = "<div class='waypoint'><strong>" + unescape(waypoint.name) + "</strong>" + deleteButton + "<br/>" + unescape(waypoint.vicinity) + "</div>";

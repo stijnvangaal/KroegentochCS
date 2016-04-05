@@ -11,12 +11,6 @@ var flash = require('connect-flash');
 var mongoose = require('mongoose');
 var app = express();
 
-//prepare socket
-// var server = require('http').Server(app);
-// var io = require('socket.io')(server);
-// server.listen(80);
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -29,14 +23,13 @@ mongoose.connect(configDB.url);
 require('./config/passport')(passport); // pass passport for configuration
 
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // passport
 app.use(session({
