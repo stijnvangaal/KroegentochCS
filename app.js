@@ -17,7 +17,8 @@ app.set('view engine', 'jade');
 
 // Data Access Layer
 var configDB = require('./config/database.js');
-mongoose.connect(configDB.url);
+
+mongoose.connect(configDB.remoteDB);
 
 // Passport config
 require('./config/passport')(passport); // pass passport for configuration
