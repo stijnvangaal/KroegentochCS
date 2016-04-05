@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20.34% </span>
+        <span class="strong">40.68% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>12/59</span>
+        <span class='fraction'>24/59</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">13.04% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/23</span>
+        <span class='fraction'>3/23</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">60% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>6/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">21.05% </span>
+        <span class="strong">42.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/57</span>
+        <span class='fraction'>24/57</span>
       </div>
     </div>
   </div>
@@ -153,14 +153,14 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,10 +190,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -227,10 +227,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -256,15 +256,15 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Waypoints = mongoose.model('Waypoint');
 &nbsp;
-<span class="fstat-no" title="function not covered" >function getWaypoints(req, res) {</span>
-<span class="cstat-no" title="statement not covered" >    Waypoints.find({}, <span class="fstat-no" title="function not covered" >function (err, waypoints) {</span></span>
-<span class="cstat-no" title="statement not covered" >        if (err){</span>
+function getWaypoints(req, res) {
+    Waypoints.find({}, function (err, waypoints) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err){
 <span class="cstat-no" title="statement not covered" >            console.log(err);</span>
 <span class="cstat-no" title="statement not covered" >            res.send("Failed to get waypoints");</span>
         }
         else{
-<span class="cstat-no" title="statement not covered" >            res.json(waypoints);</span>
-<span class="cstat-no" title="statement not covered" >            console.log(waypoints);   </span>
+            res.json(waypoints);
+            console.log(waypoints);   
         }
     });
 }
@@ -293,11 +293,11 @@ var Waypoints = mongoose.model('Waypoint');
 }
 &nbsp;
 //Better to use locations/:placeId
-<span class="fstat-no" title="function not covered" >function getWaypoint(req, res) {</span>
-<span class="cstat-no" title="statement not covered" >    Waypoints.findById(req.params.id, <span class="fstat-no" title="function not covered" >function (err, waypoint) {</span></span>
-<span class="cstat-no" title="statement not covered" >        if (err){</span>
-<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
-<span class="cstat-no" title="statement not covered" >            res.send("Failed to get waypoint")</span>
+function getWaypoint(req, res) {
+    Waypoints.findById(req.params.id, function (err, waypoint) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (err){
+            console.log(err);
+            res.send("Failed to get waypoint")
         }
         else{
 <span class="cstat-no" title="statement not covered" >            res.json(waypoint);</span>
@@ -330,11 +330,11 @@ var Waypoints = mongoose.model('Waypoint');
     }
 }
 &nbsp;
-<span class="fstat-no" title="function not covered" >function deleteWaypoint(req, res) {</span>
-<span class="cstat-no" title="statement not covered" >    Waypoints.findByIdAndRemove(req.params.id, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
-<span class="cstat-no" title="statement not covered" >        if (err){</span>
-<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
-<span class="cstat-no" title="statement not covered" >            res.send("Failed to delete waypoint");</span>
+function deleteWaypoint(req, res) {
+    Waypoints.findByIdAndRemove(req.params.id, function (err) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (err){
+            console.log(err);
+            res.send("Failed to delete waypoint");
         }else{
 <span class="cstat-no" title="statement not covered" >            console.log('Waypoint deleted!');</span>
 <span class="cstat-no" title="statement not covered" >            res.send("Waypoint deleted");</span>
@@ -361,7 +361,7 @@ module.exports = router;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 05 2016 16:40:06 GMT+0200 (West-Europa (zomertijd))
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 05 2016 19:47:25 GMT+0200 (West-Europa (zomertijd))
 </div>
 </div>
 <script src="../prettify.js"></script>
