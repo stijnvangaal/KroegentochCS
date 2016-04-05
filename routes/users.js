@@ -111,11 +111,11 @@ function addUserPP(){
 // ROUTING
 router.route('/')
     .get(getUsers)
-    .put(addUserPP);
+    .post(addUserPP);
 
 router.route('/:id')
     .get(getUser)
-    .post(updateUser)
+    .put(updateUser)
     .delete(deleteUser);
 
 

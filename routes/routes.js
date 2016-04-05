@@ -20,14 +20,12 @@ var useRoutes = function (app, passport) {
             failureRedirect: '/',
             failureFlash: true // allow flash messages
         }));
-    app.post('/login', function(req, res){ 
-        console.log("login");
-        passport.authenticate('local-login', {
-            successRedirect: '/',
-            failureRedirect: '/',
-            failureFlash: true // allow flash messages
-        });
-    });
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect: '/',
+        failureRedirect: '/',
+        failureFlash: true // allow flash messages        });
+    }));
+    
     app.get('/logout', function(req,res){
         req.logout();
         res.redirect('/');

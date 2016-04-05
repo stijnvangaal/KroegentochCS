@@ -6,7 +6,7 @@ $(document).ready(function(){
         var race = {title: title};
         $.ajax({
             url: '/races',
-            type: 'PUT',
+            type: 'POST',
             data: race
         }).done(function(){
             update_list();
@@ -18,7 +18,7 @@ function delete_race(sender){
     var id = $(sender.target).data('id');
     $.ajax({
         url: '/races/' + id,
-        type: 'DELETE',
+        type: 'DELETE'
     }).done(function(){
         update_list();
     });
@@ -93,7 +93,7 @@ function start_race(sender){
     var id = $(sender.target).data('id');
     $.ajax({
         url: '/races/' + id,
-        type: 'POST',
+        type: 'PUT',
         data: {started: true},
     }).done(function(){
         update_list();

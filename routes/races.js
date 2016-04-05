@@ -19,6 +19,7 @@ function getRaces(req, res){
 }
 
 function addRace(req, res){
+    console.log("POSTRACE");
     if (!req.isAuthenticated()){
         res.send(401);
     } else{
@@ -97,7 +98,6 @@ function updateRace(req, res){
 }
 
 function deleteRace(req, res){
-    console.log(req.isAuthenticated() + "--------------------------------------------------------------------------------------------------------");
     if (!req.isAuthenticated()){
         res.send(401);
     } else{
@@ -378,13 +378,12 @@ function getCheckedinUsers(req, res){
 // ROUTING
 router.route('/')
     .get(getRaces)
-    .put(addRace);
+    .post(addRace);
 
 router.route('/:id')
     .get(getRace)
-    .post(updateRace)
+    .put(updateRace)
     .delete(deleteRace);
-
 
 router.route('/:id/users')
     .get(getUsers)
@@ -401,7 +400,7 @@ router.route('/:id/waypoints/:pointId')
 
 
 router.route('/:race_id/waypoints/:waypoint_id/checkedInUsers')
-    .put(addCheckedinUser)
+    .post(addCheckedinUser)
     .get(getCheckedinUsers);
 
 module.exports = router;
