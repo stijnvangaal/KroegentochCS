@@ -34,8 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // passport
 app.use(session({
     secret: 'manmanman',
-    resave: false,
-    saveUninitialized: true
+    // resave: false,
+    // saveUninitialized: true
 })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
