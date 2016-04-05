@@ -70,7 +70,7 @@ describe("Testing Race route", function () {
         it('should be unauthorized', function(done){
             var expectedName = "TEST";
             var race = { "title" : expectedName };
-            putRequest('/', race, 401, function(err, res){
+            postRequest('/', race, 401, function(err, res){
                 if(err){ return done(err); }
                 done();
             });
@@ -90,7 +90,7 @@ describe("Testing Race route", function () {
     describe("Update race", function(){
         it('should be unauthorized', function(done){
             var raceid = "sertfygbhnj";
-            postRequest('/' + raceid, {} , 401, function(err, res){
+            putRequest('/' + raceid, {} , 401, function(err, res){
                 if(err){ return done(err); }
                 done();
             });
