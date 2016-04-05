@@ -1,13 +1,16 @@
 extends layout
 
 block content
-    .container
+    .container(data-id='#{raceId}')
         .back
             a(href="../") back
-        h1= title
-        .new_waypoint
-            label(for='title') title
-            input(id='title',type='text',value='')
-            button#create_waypoint Create Waypoint
+        h1.title= title
+        .location_search
+            label(for='locsearch') Search for a location for your waypoint
+            input(id='locsearch', type='text',value='')
+            button#search_location Search
+            .outer
+                .innder
+                    .found_locations &nbsp;
+                    .waypoints &nbsp;
         hr
-        .waypoints

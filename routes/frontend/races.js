@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var Races = mongoose.model('Race');
 
 function getRaces(req, res) {
     var user = req.user;

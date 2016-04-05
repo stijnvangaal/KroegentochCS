@@ -24,6 +24,12 @@ function delete_race(sender){
     });
 }
 
+function edit_race(sender){
+    var id = $(sender.target).data('id');
+    var link = "manageWaypoints?id=" + id;
+    window.location.href = link;
+}
+
 function update_list(){
     var races = $('.races');
     races.empty();
@@ -34,10 +40,16 @@ function update_list(){
                 var title = value.title;
                 var ownerName = value.owner.local.username;
                 var user_count = value.users.length;
-                race = "<div data-id='" + id + "'><h2>" + title + "</h2><p>Owned by: " + ownerName + "</p><p>" + user_count + " users</p><button class='delete_race' data-id='" + id + "'>Delete</button></div>";
+                var deleteButton = "<button class='delete_race' data-id='" + id + "'>Delete</button>";
+                var editButton = "";
+                if(value.owner._id == $(".new_race").data("user_id")){
+                    editButton = "<button class='edit_race' data-id='" + id + "'>Edit</button>";
+                }
+                race = "<div data-id='" + id + "'><h2>" + title + "</h2><p>Owned by: " + ownerName + "</p><p>" + user_count + " users</p>" + editButton + deleteButton + "</div>";
                 races.append(race);
             });
             $('.delete_race').click(delete_race);
+            $('.edit_race').click(edit_race);
         });
 
 }

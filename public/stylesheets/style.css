@@ -50,3 +50,20 @@ hr{
 .red{
   color:red;
 }
+
+.outer{
+  overflow:hidden;width:100%;
+}
+
+.found_locations{
+  float:left;
+  width:50%;
+}
+.waypoints{
+  float:left;
+  width:50%;
+}
+
+.waypoint{
+  margin-bottom: 5px;
+}

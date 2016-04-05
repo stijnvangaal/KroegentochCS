@@ -24,10 +24,11 @@ function addRace(req, res){
         var title = req.body.title;
         var owner = req.user;
 
-        newRace = new Races({
+        var newRace = new Races({
             title: title,
-            ownerId: owner._id
+            owner: owner
         });
+
         newRace.save(function(err, result){
             if (err){
                 console.log(err);
@@ -119,31 +120,80 @@ function deleteRace(req, res){
     }
 }
 
-function addusers(req, res){
-    var newUsers = req.body.userIds;
+function addUsers(req, res){
+    if (req.body.userId){
+        var newUsers = req.body.userId;
+    } else{
+        var newUsers = req.body.userIds;
+    }
 
     if (newUsers != undefined){
         var userData = {};
         if (typeof newUsers === 'string'){
             userData = {$push: {users: newUsers}};
-        }
-        else{
+        } else{
             userData = {$push: {users: {$each: newUsers}}};
         }
 
-        Races.findByIdAndUpdate(req.params.id, userData, {new: true}, function(err, race){
-            if (err){
-                console.log(err);
-                res.send("Failed to add user(s)");
-            } else{
-                console.log(race);
-                res.json(race);
-            }
-        });
+        // find out if the user is already in the race
+        var duplicate = false;
+        Races.findOne({"_id": req.params.id})
+            .populate("users")
+            .select("users -_id")
+            .exec(function(err, data){
+                duplicateCheck:
+                    for (var i = 0; i < data.users.length; i++){
+                        if (typeof newUsers == 'string'){
+                            if (String(newUsers) == String(data.users[i]._id)){
+                                duplicate = true;
+                                break duplicateCheck;
+                            }
+                        } else{ // is array
+                            for (var user_id in userData){
+                                if (String(userData) == String(data.users[i]._id)){
+                                    duplicate = true;
+                                    break duplicateCheck;
+                                }
+                            }
+                        }
+                    }
+                if (!duplicate){
+
+                    // add the user
+                    Races.findByIdAndUpdate(req.params.id, userData, {new: true}, function(err, race){
+                        if (err){
+                            console.log(err);
+                            res.send(500, "Failed to add user(s)");
+                        } else if (!race){
+                            res.send(404, "Race not found");
+                        } else{
+                            console.log(race);
+                            res.json(race);
+                        }
+                    });
+                } else{
+                    res.send("This user is already participating");
+                }
+            });
     } else{
         res.statusCode = 304;
         res.send("No value modified");
     }
+}
+
+function getUsers(req, res){
+    Races.findOne({"_id": req.params.id})
+        .populate("users")
+        .select("users -_id")
+        .exec(function(err, users){
+            if (err){
+                console.log(err);
+                res.send("Failed to get users");
+            } else{
+                res.json(users);
+                console.log(users);
+            }
+        });
 }
 
 function deleteUser(req, res){
@@ -175,7 +225,6 @@ function deleteUser(req, res){
 
 function addWaypoints(req, res){
     if (!req.isAuthenticated()){
-        // TODO check if it's your own race!
         res.send(401);
     } else{
 
@@ -196,7 +245,6 @@ function addWaypoints(req, res){
                     else{
                         pointData = {$push: {waypoints: {$each: newpoints}}};
                     }
-
                     Races.findByIdAndUpdate(req.params.id, pointData, {new: true}, function(err, race){
                         if (err){
                             console.log(err);
@@ -240,11 +288,34 @@ function deleteWaypoint(req, res){
     }
 }
 
-function checkinUser(req, res){
+function addCheckedinUser(req, res){
     if (!req.isAuthenticated()){
         res.send(401);
     } else{
-        // TODO
+        var addingSelf = req.params.userId == String(req.user._id);
+        if (!addingSelf){
+            res.send(403, "you can only alter your own race status");
+        } else{
+
+        }
+    }
+}
+function getCheckedinUsers(req, res){
+    if (!req.isAuthenticated()){
+        res.send(401);
+    } else{
+        Races.findOne({"_id": req.params.id})
+            .populate("waypoints")
+            .exec(function(err, users){
+                if (err){
+                    console.log(err);
+                    res.send("Failed to get checked in users");
+                } else{
+                    res.json(users);
+                    console.log(users);
+                }
+            });
+
     }
 }
 
@@ -258,17 +329,23 @@ router.route('/:id')
     .post(updateRace)
     .delete(deleteRace);
 
+
 router.route('/:id/users')
-    .post(addusers);
+    .get(getUsers)
+    .post(addUsers);
+
 router.route('/:id/users/:userId')
     .delete(deleteUser);
+
 
 router.route('/:id/waypoints')
     .post(addWaypoints);
 router.route('/:id/waypoints/:pointId')
     .delete(deleteWaypoint);
 
+
 router.route('/:race_id/waypoints/:waypoint_id/checkedInUsers')
-    .put(checkinUser);
+    .put(addCheckedinUser)
+    .get(getCheckedinUsers);
 
 module.exports = router;

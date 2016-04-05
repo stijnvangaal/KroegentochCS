@@ -5,7 +5,7 @@ block content
         .back
             a(href="../") back
         h1= title
-        .new_race
+        .new_race(data-user_id='#{user._id}')
             form(action'')
                 label(for='title') title
                 input(id='title',type='text',value='')
