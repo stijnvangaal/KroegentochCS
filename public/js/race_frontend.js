@@ -94,7 +94,7 @@ function start_race(sender){
     $.ajax({
         url: '/races/' + id,
         type: 'PUT',
-        data: {started: true},
+        data: {started: true}
     }).done(function(){
         update_list();
     });
@@ -111,3 +111,5 @@ function leave_race(sender){
     });
 }
 
+var socket = io.connect('localhost:8090');
+socket.emit('testEvent', {data:'mydata'});

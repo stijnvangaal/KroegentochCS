@@ -21,11 +21,3 @@ function getRaces(req, res){
 router.route('/').get(getRaces);
 
 module.exports = router;
-
-// function test_socket(){
-//     io.on('connection', function (socket) {
-//         socket.on('news_left', function () {
-//             console.log("NEWS IS LEFT!");
-//         });
-//     });
-// }
