@@ -7,22 +7,13 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
-var fs = require('fs');
-var https = require('https');
+
 var mongoose = require('mongoose');
 var app = express();
-
-var options = {
-    key: fs.readFileSync('./file.pem'),
-    cert: fs.readFileSync('./file.crt')
-};
-
-var serverPort = 443;
-
-var server = https.createServer(options, app);
+var server = require('https').Server(app);
 var io = require('socket.io')(server);
 
-server.listen(serverPort);
+server.listen(8080);
 
 require('./config/socket')(io);
 
