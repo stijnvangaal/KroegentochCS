@@ -1,4 +1,4 @@
-var socket = io.connect('http://mysterious-lake-75653.herokuapp.com:8080', {secure: true});
+var socket = io.connect('http://mysterious-lake-75653.herokuapp.com:443');
 $(document).ready(function(){
     // append race title to page title
     var raceId = $('.container').data("id");
