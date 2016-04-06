@@ -1,4 +1,5 @@
-var socket = io.connect('http://mysterious-lake-75653.herokuapp.com');
+var socket = io.connect('localhost:8080');
+// var socket = io.connect('http://mysterious-lake-75653.herokuapp.com:8080');
 
 $(document).ready(function(){
     var create_race_button = $('#create_race');
@@ -118,6 +119,5 @@ function start_race(sender){
 }
 
 socket.on('racesUpdated', function(data){
-    console.log("RACE UPDATE");
     update_list();
 });

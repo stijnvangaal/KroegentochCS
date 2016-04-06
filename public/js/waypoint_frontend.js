@@ -1,4 +1,5 @@
-var socket = io.connect('http://mysterious-lake-75653.herokuapp.com');
+var socket = io.connect('localhost:8080');
+// var socket = io.connect('http://mysterious-lake-75653.herokuapp.com:8080');
 $(document).ready(function(){
     // append race title to page title
     var raceId = $('.container').data("id");
@@ -89,6 +90,5 @@ function remove_waypoint(sender){
 }
 
 socket.on('waypointsUpdated', function(){
-    console.log("WAYPOINT UPDATE");
     update_wp_list();
 });
