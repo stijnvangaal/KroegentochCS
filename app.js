@@ -10,7 +10,7 @@ var flash = require('connect-flash');
 
 var mongoose = require('mongoose');
 var app = express();
-var server = require('http').Server(app);
+var server = require('https').Server(app);
 var io = require('socket.io')(server);
 
 server.listen(8080);
@@ -24,8 +24,6 @@ app.set('view engine', 'jade');
 // Data Access Layer
 var configDB = require('./config/database.js');
 
-console.log("ENV");
-console.log(process.env.PROD);
 if (process.env.PROD == 'PROD'){
     mongoose.connect(configDB.remoteDB);
 } else{
