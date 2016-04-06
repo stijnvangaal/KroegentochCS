@@ -24,7 +24,11 @@ app.set('view engine', 'jade');
 // Data Access Layer
 var configDB = require('./config/database.js');
 
-mongoose.connect(configDB.remoteDB);
+if (process.env.Hosting == 'Heroku'){
+    mongoose.connect(configDB.remoteDB);
+} else{
+    mongoose.connect(configDB.url);
+}
 
 // Passport config
 require('./config/passport')(passport); // pass passport for configuration
