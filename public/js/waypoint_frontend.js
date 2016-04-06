@@ -1,3 +1,4 @@
+var socket = io.connect('localhost:8080');
 $(document).ready(function(){
     // append race title to page title
     var raceId = $('.container').data("id");
@@ -24,11 +25,30 @@ function search(sender){
             var html_string = "<p>" + location.name + button;
             foundDiv.append(html_string);
         });
-        $(".add_wp_to_race").click(add_wp_to_race);
+        $(".add_wp_to_race").click(add_waypoint);
     });
 }
 
-function add_wp_to_race(sender){
+function update_wp_list(){
+    var raceId = $('.container').data('id');
+    var waypointsDiv = $('.waypoints');
+    $.ajax("/Races/" + raceId).done(function(data){
+        var waypoints = data.waypoints;
+        waypointsDiv.empty();
+        waypointsDiv.append("<h2>Your waypoints</h2>");
+        if (waypoints.length == 0){
+            waypointsDiv.append("<p>You have no waypoints yet</p>");
+        }
+        $.each(waypoints, function(key, waypoint){
+            var deleteButton = "<button class='remove_wp' data-waypoint_id='" + waypoint._id + "'>Remove</button>";
+            var htmlString = "<div class='waypoint'><strong>" + unescape(waypoint.name) + "</strong>" + deleteButton + "<br/>" + unescape(waypoint.vicinity) + "</div>";
+            waypointsDiv.append(htmlString);
+        });
+        $(".remove_wp").click(remove_waypoint);
+    })
+}
+
+function add_waypoint(sender){
     var button = $(sender.target);
     var place_id = button.data("place_id");
     var vicinity = button.data("vicinity");
@@ -51,27 +71,9 @@ function add_wp_to_race(sender){
             data: {"waypoints": waypointId}
         }).done(function(){
             update_wp_list();
+            socket.emit('waypointUpdated');
         });
     });
-}
-
-function update_wp_list(){
-    var raceId = $('.container').data('id');
-    var waypointsDiv = $('.waypoints');
-    $.ajax("/Races/" + raceId).done(function(data){
-        var waypoints = data.waypoints;
-        waypointsDiv.empty();
-        waypointsDiv.append("<h2>Your waypoints</h2>");
-        if(waypoints.length == 0){
-            waypointsDiv.append("<p>You have no waypoints yet</p>");
-        }
-        $.each(waypoints, function(key, waypoint){
-            var deleteButton = "<button class='remove_wp' data-waypoint_id='" + waypoint._id + "'>Remove</button>";
-            var htmlString = "<div class='waypoint'><strong>" + unescape(waypoint.name) + "</strong>" + deleteButton + "<br/>" + unescape(waypoint.vicinity) + "</div>";
-            waypointsDiv.append(htmlString);
-        });
-        $(".remove_wp").click(remove_waypoint);
-    })
 }
 
 function remove_waypoint(sender){
@@ -82,5 +84,11 @@ function remove_waypoint(sender){
         type: "DELETE"
     }).done(function(){
         update_wp_list();
+        socket.emit('waypointUpdated');
     });
 }
+
+socket.on('waypointsUpdated', function(){
+    console.log("WAYPOINT UPDATE");
+    update_wp_list();
+});

@@ -1,40 +1,16 @@
+var socket = io.connect('localhost:8080');
+
 $(document).ready(function(){
     var create_race_button = $('#create_race');
     update_list();
-    create_race_button.on('click', function(){
-        var title = $('#title').val();
-        var race = {title: title};
-        $.ajax({
-            url: '/races',
-            type: 'POST',
-            data: race
-        }).done(function(){
-            update_list();
-        });
-    });
+    create_race_button.on('click', create_race);
 });
-
-function delete_race(sender){
-    var id = $(sender.target).data('id');
-    $.ajax({
-        url: '/races/' + id,
-        type: 'DELETE'
-    }).done(function(){
-        update_list();
-    });
-}
-
-function edit_race(sender){
-    var id = $(sender.target).data('id');
-    var link = "manageWaypoints?id=" + id;
-    window.location.href = link;
-}
 
 function update_list(){
     var races = $('.races');
-    races.empty();
     $.ajax('/races')
         .done(function(data){
+            races.empty();
             $.each(data, function(key, value){
                 var id = value._id;
                 var title = value.title;
@@ -77,6 +53,34 @@ function update_list(){
         });
 }
 
+function create_race(sender){
+    var title = $('#title').val();
+    var race = {title: title};
+    $.ajax({
+        url: '/races',
+        type: 'POST',
+        data: race
+    }).done(function(){
+        update_list();
+        socket.emit('raceUpdated');
+    });
+}
+function delete_race(sender){
+    var id = $(sender.target).data('id');
+    $.ajax({
+        url: '/races/' + id,
+        type: 'DELETE'
+    }).done(function(){
+        update_list();
+        socket.emit('raceUpdated');
+    });
+}
+
+function edit_race(sender){
+    var id = $(sender.target).data('id');
+    var link = "manageWaypoints?id=" + id;
+    window.location.href = link;
+}
 
 function join_race(sender){
     var id = $(sender.target).data('id');
@@ -85,6 +89,18 @@ function join_race(sender){
         type: 'POST',
         data: {userId: $(".new_race").data("user_id")},
     }).done(function(){
+        socket.emit('raceUpdated');
+        update_list();
+    });
+}
+
+function leave_race(sender){
+    var id = $(sender.target).data('id');
+    $.ajax({
+        url: '/races/' + id + '/users/' + $(".new_race").data("user_id"),
+        type: 'DELETE'
+    }).done(function(){
+        socket.emit('raceUpdated');
         update_list();
     });
 }
@@ -96,20 +112,12 @@ function start_race(sender){
         type: 'PUT',
         data: {started: true}
     }).done(function(){
+        socket.emit('raceUpdated');
         update_list();
     });
 }
 
-
-function leave_race(sender){
-    var id = $(sender.target).data('id');
-    $.ajax({
-        url: '/races/' + id + '/users/' + $(".new_race").data("user_id"),
-        type: 'DELETE'
-    }).done(function(){
-        update_list();
-    });
-}
-
-var socket = io.connect('localhost:8090');
-socket.emit('testEvent', {data:'mydata'});
+socket.on('racesUpdated', function(data){
+    console.log("RACE UPDATE");
+    update_list();
+});
