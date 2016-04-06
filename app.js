@@ -24,6 +24,8 @@ app.set('view engine', 'jade');
 // Data Access Layer
 var configDB = require('./config/database.js');
 
+console.log("ENV");
+console.log(process.env.Hosing);
 if (process.env.Hosting == 'Heroku'){
     mongoose.connect(configDB.remoteDB);
 } else{
