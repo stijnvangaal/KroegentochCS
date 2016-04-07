@@ -42,20 +42,65 @@ block content
         hr
         .urls
         h3 Api
+
         .url#races
+            h4 Races
             span.url_title
                 a(href="/races") /races
             .possible_method#races
                 code GET
-                code PUT
                 code POST
+
+            span.url_title
+                span /races/:raceId
+            .possible_method#races
+                code GET
+                code PUT
                 code DELETE
+
+            span.url_title
+                span /races/id/users
+            .possible_method#races
+                code GET
+                code POST
+
+            span.url_title
+                span /races/:raceId/users/:userId
+            .possible_method#races
+                code DELETE
+
+            span.url_title
+                span /races/:raceId/waypoints
+            .possible_method#races
+                code POST
+
+            span.url_title
+                span /races/:raceId/waypoints/:waypointId
+            .possible_method#races
+                code DELETE
+
+            span.url_title
+                span /races/:raceId/waypoints/:waypointId/checkedInUsers
+            .possible_method#races
+                code GET
+                code POST
+
+
         .url#locations
+            h4 Locations
             span.url_title
                 a(href="/locations") /locations
             .possible_method#locations
                 code GET
+
+            span.url_title
+                span /locations/:locationId
+            .possible_method#locations
+                code GET
+
+
         .url#users
+            h4 Users
             span.url_title
                 a(href="/users") /users
             .possible_method#users
@@ -63,11 +108,19 @@ block content
                 code PUT
                 code POST
                 code DELETE
+
+
         .url#waypoints
+            h4 Waypoints
             span.url_title
                 a(href="/waypoints") /waypoints
             .possible_method#waypoints
                 code GET
-                code PUT
                 code POST
+
+            span.url_title
+                span /waypoints/:waypointId
+            .possible_method#waypoints
+                code GET
+                code PUT
                 code DELETE
