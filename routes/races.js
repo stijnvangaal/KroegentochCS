@@ -20,12 +20,13 @@ function getRaces(req, res){
 
 function addRace(req, res){
     console.log("POSTRACE");
-    if (!req.isAuthenticated()){
-        res.send(401);
-    } else{
+    // if (!req.isAuthenticated()){
+    //     res.send(401);
+    // } else{
         var title = req.body.title;
-        var owner = req.user;
-
+        // var owner = req.user;
+        // spoof owner for BMD2
+        var owner = "57091fb62c58bc11000f8e55";
         var newRace = new Races({
             title: title,
             owner: owner
@@ -40,7 +41,7 @@ function addRace(req, res){
                 res.send(result);
             }
         });
-    }
+    // }
 
 }
 
@@ -61,16 +62,16 @@ function getRace(req, res){
 }
 
 function updateRace(req, res){
-    if (!req.isAuthenticated()){
-        res.send(401);
-    } else{
+    // if (!req.isAuthenticated()){
+    //     res.send(401);
+    // } else{
         // check if it's your own race
-        Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
-            if (!err){
-                if (String(oldRace.owner._id) !== String(req.user._id)){
-                    res.send(403, "you can only update your own races");
-                    return;
-                }
+        // Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
+        //     if (!err){
+        //         if (String(oldRace.owner._id) !== String(req.user._id)){
+        //             res.send(403, "you can only update your own races");
+        //             return;
+        //         }
 
                 // update the race
                 var newTitle = req.body.title;
@@ -93,21 +94,21 @@ function updateRace(req, res){
                 res.statusCode = 304;
                 res.send("No value modified");
             }
-        });
-    }
+        // });
+    // }
 }
 
 function deleteRace(req, res){
-    if (!req.isAuthenticated()){
-        res.send(401);
-    } else{
+    // if (!req.isAuthenticated()){
+    //     res.send(401);
+    // } else{
         // check if it's your own race
-        Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
-            if (!err){
-                if (String(oldRace.owner._id) !== String(req.user._id)){
-                    res.send(403, "you can only delete your own races");
-                    return;
-                }
+        // Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
+        //     if (!err){
+        //         if (String(oldRace.owner._id) !== String(req.user._id)){
+        //             res.send(403, "you can only delete your own races");
+        //             return;
+        //         }
 
                 // dalete the race
                 Races.findByIdAndRemove(req.params.id, function(err){
@@ -119,9 +120,9 @@ function deleteRace(req, res){
                         res.send("Race successfully deleted");
                     }
                 });
-            }
-        });
-    }
+        //     }
+        // });
+    // }
 }
 
 function addUsers(req, res){
@@ -140,29 +141,29 @@ function addUsers(req, res){
             userData = {$push: {users: {$each: newUsers}}};
         }
 
-        // find out if the user is already in the race
-        var duplicate = false;
-        Races.findOne({"_id": req.params.id})
-            .populate("users")
-            .select("users -_id")
-            .exec(function(err, data){
-                duplicateCheck:
-                    for (var i = 0; i < data.users.length; i++){
-                        if (typeof newUsers == 'string'){
-                            if (String(newUsers) == String(data.users[i]._id)){
-                                duplicate = true;
-                                break duplicateCheck;
-                            }
-                        } else{ // is array
-                            for (var user_id in userData){
-                                if (String(userData) == String(data.users[i]._id)){
-                                    duplicate = true;
-                                    break duplicateCheck;
-                                }
-                            }
-                        }
-                    }
-                if (!duplicate){
+        // // find out if the user is already in the race
+        // var duplicate = false;
+        // Races.findOne({"_id": req.params.id})
+        //     .populate("users")
+        //     .select("users -_id")
+        //     .exec(function(err, data){
+        //         duplicateCheck:
+        //             for (var i = 0; i < data.users.length; i++){
+        //                 if (typeof newUsers == 'string'){
+        //                     if (String(newUsers) == String(data.users[i]._id)){
+        //                         duplicate = true;
+        //                         break duplicateCheck;
+        //                     }
+        //                 } else{ // is array
+        //                     for (var user_id in userData){
+        //                         if (String(userData) == String(data.users[i]._id)){
+        //                             duplicate = true;
+        //                             break duplicateCheck;
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         if (!duplicate){
 
                     // add the user
                     Races.findByIdAndUpdate(req.params.id, userData, {new: true}, function(err, race){
@@ -176,10 +177,10 @@ function addUsers(req, res){
                             res.json(race);
                         }
                     });
-                } else{
-                    res.send("This user is already participating");
-                }
-            });
+    //             } else{
+    //                 res.send("This user is already participating");
+    //             }
+    //         });
     } else{
         res.statusCode = 304;
         res.send("No value modified");
@@ -202,18 +203,18 @@ function getUsers(req, res){
 }
 
 function deleteUser(req, res){
-    if (!req.isAuthenticated()){
-        res.send(401);
-    } else{
+    // if (!req.isAuthenticated()){
+    //     res.send(401);
+    // } else{
         // if the user is removing yourself
-        var removingSelf = req.params.userId == String(req.user._id);
+        // var removingSelf = req.params.userId == String(req.user._id);
 
-        Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
-            if (!err){
-                if (String(oldRace.owner._id) !== String(req.user._id) && !removingSelf){ // if not the owner and not removing himself
-                    res.send(403, "You can only delete yourself if you're not the owner of the Race");
-                    return;
-                }
+        // Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
+        //     if (!err){
+        //         if (String(oldRace.owner._id) !== String(req.user._id) && !removingSelf){ // if not the owner and not removing himself
+        //             res.send(403, "You can only delete yourself if you're not the owner of the Race");
+        //             return;
+        //         }
                 Races.findByIdAndUpdate(req.params.id, {$pull: {users: req.params.userId}}, {new: true}, function(err, race){
                     if (err){
                         console.log(err);
@@ -223,22 +224,22 @@ function deleteUser(req, res){
                         res.json(race);
                     }
                 });
-            }
-        });
-    }
+            // }
+        // });
+    // }
 }
 
 function addWaypoints(req, res){
-    if (!req.isAuthenticated()){
-        res.send(401);
-    } else{
+    // if (!req.isAuthenticated()){
+    //     res.send(401);
+    // } else{
         // check if it's your own race and if the waypoint is unique in the race.
-        Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
-                if (!err){
-                    if (String(oldRace.owner._id) !== String(req.user._id)){
-                        res.send(403, "you can only alter your own races");
-                        return;
-                    }
+        // Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
+        //         if (!err){
+        //             if (String(oldRace.owner._id) !== String(req.user._id)){
+        //                 res.send(403, "you can only alter your own races");
+        //                 return;
+        //             }
                     var newpoints = req.body.waypoints;
 
                     // // Dublicate detection:
@@ -284,23 +285,23 @@ function addWaypoints(req, res){
                         res.statusCode = 304;
                         res.send("No value modified");
                     }
-                }
-            }
-        );
-    }
+    //             }
+    //         }
+    //     );
+    // }
 }
 
 function deleteWaypoint(req, res){
-    if (!req.isAuthenticated()){
-        res.send(401);
-    } else{
+    // if (!req.isAuthenticated()){
+    //     res.send(401);
+    // } else{
         // check if it's your own race
-        Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
-            if (!err){
-                if (String(oldRace.owner._id) !== String(req.user._id)){
-                    res.send(403, "you can only alter your own Races");
-                    return;
-                }
+        // Races.findOne({"_id": req.params.id}).populate("owner").exec(function(err, oldRace){
+        //     if (!err){
+        //         if (String(oldRace.owner._id) !== String(req.user._id)){
+        //             res.send(403, "you can only alter your own Races");
+        //             return;
+        //         }
                 Races.findByIdAndUpdate(req.params.id, {$pull: {waypoints: req.params.pointId}}, function(err, race){
                     if (err){
                         console.log(err);
@@ -310,22 +311,22 @@ function deleteWaypoint(req, res){
                         res.json(race);
                     }
                 });
-            }
-        });
-    }
+    //         }
+    //     });
+    // }
 }
 
 function addCheckedinUser(req, res){
-    if (!req.isAuthenticated()){
-        res.send(401);
-    } else{
+    // if (!req.isAuthenticated()){
+    //     res.send(401);
+    // } else{
         var userId = req.body.userId;
         var waypointId = req.params.waypoint_id;
-
-        var checkingInSelf = userId == String(req.user._id);
-        if (!checkingInSelf){
-            res.send(403, "you can only alter your own status");
-        } else{
+        
+        // var checkingInSelf = userId == String(req.user._id);
+        // if (!checkingInSelf){
+        //     res.send(403, "you can only alter your own status");
+        // } else{
 
 
             // checkin the user
@@ -338,14 +339,14 @@ function addCheckedinUser(req, res){
                     res.json(wp);
                 }
             });
-        }
-    }
+    //     }
+    // }
 }
 
 function getCheckedinUsers(req, res){
-    if (!req.isAuthenticated()){
-        res.send(401);
-    } else{
+    // if (!req.isAuthenticated()){
+    //     res.send(401);
+    // } else{
         var waypointId = req.params.waypoint_id;
         // get all races.
         // foreach
