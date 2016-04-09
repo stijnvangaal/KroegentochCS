@@ -90,10 +90,10 @@ function updateRace(req, res){
                         res.json(race);
                     }
                 });
-            } else{
-                res.statusCode = 304;
-                res.send("No value modified");
-            }
+            // } else{
+            //     res.statusCode = 304;
+            //     res.send("No value modified");
+            // }
         // });
     // }
 }
@@ -373,7 +373,7 @@ function getCheckedinUsers(req, res){
                     console.log(users);
                 }
             });
-    }
+    // }
 }
 
 // ROUTING
