@@ -61,8 +61,8 @@ function add_waypoint(sender){
         type: 'POST',
         data: {
             placeId: place_id,
-            name: name,
-            vicinity: vicinity
+            name: unescape(name),
+            vicinity: unescape(vicinity)
         }
     }).done(function(data){
         var waypointId = data._id;
